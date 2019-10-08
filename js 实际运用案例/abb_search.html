@@ -1,0 +1,245 @@
+<div class="index-sub-nav clearfix">
+        <div class="sub-nav-search clearfix">
+            <form action="<{link app=b2c ctl=site_search act=result }>" method="post" class="SearchBar searchBar_<{$widgets_id}>" id="searchbar_<{$widgets_id}>" async="false" autocomplete="off">
+                <button type="submit" class="btn btn-search submit-btn nav-submit-btn">
+                    <img src="images/search.png" alt="搜索">
+                </button>
+                <div class="search-input">
+                    <input type="text" name="search_keywords" placeholder="搜索" autocompleter="off" ac_options="{}" class="key"  />
+                </div>
+            </form>
+        </div>
+        <div class="sub-navs">
+            <ul class="clearfix">
+                <li>
+                    <div class="line pre"></div>
+                    <a href="<{$data.ad_pic1_link}>" class="nav-item" target="_blank">
+                        <div class="img-warp">
+                            <img class="up-img" src="<{$data.ad_pic1}>" alt="<{$data.ad_pic1_txt}>">
+                            <img class="down-img" src="<{$data.ad_pic1_1}>" alt="<{$data.ad_pic1_txt}>">
+                        </div>
+                        <p ><{$data.ad_pic1_txt}></p>
+                    </a>
+                    <div class="line"></div>
+                </li>
+                <li>
+                    <a href="<{$data.ad_pic2_link}>" class="nav-item" target="_blank">
+                        <div class="img-warp">
+                            <img class="up-img" src="<{$data.ad_pic2}>" alt="<{$data.ad_pic2_txt}>">
+                            <img class="down-img" src="<{$data.ad_pic2_1}>" alt="<{$data.ad_pic2_txt}>">
+                        </div>
+                        <p ><{$data.ad_pic2_txt}></p>
+                    </a>
+                    <div class="line"></div>
+                </li>
+                <li>
+                    <a href="<{$data.ad_pic3_link}>" class="nav-item" target="_blank">
+                        <div class="img-warp">
+                            <img class="up-img" src="<{$data.ad_pic3}>" alt="<{$data.ad_pic3_txt}>">
+                            <img class="down-img" src="<{$data.ad_pic3_1}>" alt="<{$data.ad_pic3_txt}>">
+                        </div>
+                        <p ><{$data.ad_pic3_txt}></p>
+                    </a>
+                    <div class="line"></div>
+                </li>
+                <li>
+                    <a href="<{$data.ad_pic4_link}>" class="nav-item" target="_blank">
+                        <div class="img-warp">
+                            <img class="up-img" src="<{$data.ad_pic4}>" alt="<{$data.ad_pic4_txt}>">
+                            <img class="down-img" src="<{$data.ad_pic4_1}>" alt="<{$data.ad_pic4_txt}>">
+                        </div>
+                        <p ><{$data.ad_pic4_txt}></p>
+                    </a>
+                    <div class="line"></div>
+                </li>
+                <li>
+                    <a href="<{$data.ad_pic5_link}>" class="nav-item" target="_blank">
+                        <div class="img-warp">
+                            <img class="up-img" src="<{$data.ad_pic5}>" alt="<{$data.ad_pic5_txt}>">
+                            <img class="down-img" src="<{$data.ad_pic5_1}>" alt="<{$data.ad_pic5_txt}>">
+                        </div>
+                        <p <{if $data.ad_pic1_color}>style="color:<{$data.ad_pic5_color}>"<{/if}>><{$data.ad_pic5_txt}></p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        (function(scope){
+            scope.getElement('button[type=submit]').addEvent('click', function(e){
+                if(scope.getElement('input').value.trim() === '') {
+                    e.stop();
+                }
+            });
+            // var search_keywords = decodeURIComponent(Memory.get('search_key'));
+            // if(search_keywords == 'null'){
+            // 	search_keywords = '';
+            // }
+            // scope.getElement('input[name=search_keywords]').value = search_keywords;
+    
+            // var path ='<{$env.statics_host_url}>/b2c/statics/js<{if !defined("DEBUG_JS") || !DEBUG_JS}>_mini<{/if}>/';
+            // $LAB.script(path + 'autocompleter.js').wait(function(){
+            // 	var item = scope.getElement('[data-autocompleter]');
+            // 	var options = {};
+            // 	try {
+            // 		options = JSON.decode(item.get('data-autocompleter-options'));
+            // 	}catch (e) {}
+            // 	Object.merge(options, item.retrieve('autocompleter_options', {}));
+    
+            // 	new Autocompleter.Request.JSON(item, "<{link app=b2c ctl=site_search act=associate}>", options);
+            // });
+        })($('searchbar_<{$widgets_id}>'));
+    
+        (function($) {
+            $('.sub-nav-search').mouseenter(function() {
+                $('.index-sub-nav').addClass('active')
+            })
+            $('.index-sub-nav').mouseleave(function() {
+                $(this).removeClass('active')
+            })
+            
+            $('.sub-nav-search .SearchBar').keydown(function(event){
+            　　if(event.keyCode==13){
+                // 点击 回车 执行
+            　　	$('.nav-submit-btn').trigger('click');
+            　　}
+            })
+        })(jQuery);
+    </script>
+        
+    <style>
+    .index-sub-nav {
+        text-align: left;
+        height: 200px;
+        font-size: 18px;
+        position: relative;
+    } 
+    .index-sub-nav .SearchBar {
+        position: relative;
+    }
+    .index-sub-nav .sub-nav-search {
+        /* padding-top: 15px; */
+        display: inline-block;
+        vertical-align: top;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        width: 16%;
+        transition: all 0.2s ease-in-out 0.4s;
+    }
+    .index-sub-nav .sub-nav-search .btn-search {
+        width: 73px;
+        height: 82px;
+        border: 1px solid #f0f0f0;
+        background-color: #fafafa;
+        display: inline-block;
+        box-sizing: border-box;
+        outline-width: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+        z-index: 10;
+    }
+    .index-sub-nav .search-input {
+        width: 73px;
+        height: 82px;
+        background: #f7f7f7;
+        transition: all 0.4s ease-in-out 0.2s;
+        overflow: hidden;
+        position: relative;
+    }
+    .index-sub-nav .search-input input {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        padding-left: 83px;
+        box-sizing: border-box;
+        position: relative;
+    }
+    .index-sub-nav p {
+        color: #262626;
+    }
+    .index-sub-nav .line {
+        width: 1px;
+        height: 82px;
+        background-color: #f4f4f4;
+        position: absolute;
+        top: 13px;
+        right: 0;
+    }
+    .index-sub-nav .line.pre {
+        left: 0;
+        right: auto;
+    }
+    .index-sub-nav .sub-navs {
+        text-align: center;
+        position: absolute;
+        top: 35px;
+        right: 0;
+        width: 84%;
+        transition: all 0.4s ease-in-out 0.1s;
+    }
+    .index-sub-nav .sub-navs li {
+        float: left;
+        position: relative;
+        width: 20%;
+        box-sizing: border-box;
+    }
+    
+    .index-sub-nav .sub-navs li .nav-item {
+        display: inline-block;
+    }
+    
+    .index-sub-nav .sub-navs li .nav-item .img-warp {
+        position: relative;
+        height: 66px;
+        overflow: hidden;
+        margin: 0 auto;
+    }
+    .index-sub-nav .sub-navs li .nav-item .img-warp .up-img, .index-sub-nav .sub-navs li .nav-item .img-warp .down-img {
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        height: 36px;
+        transition: all 0.4s ease-in-out;
+    }
+    .index-sub-nav .sub-navs li .nav-item .img-warp .up-img {
+        top: 15px;
+    }
+    .index-sub-nav .sub-navs li .nav-item .img-warp .down-img {
+        bottom: -36px;
+    }
+    .index-sub-nav .sub-navs li .nav-item:hover .up-img {
+        top: -36px;
+    }
+    .index-sub-nav .sub-navs li .nav-item:hover .down-img {
+        bottom: 15px;
+    }
+    .index-sub-nav .sub-navs li .nav-item:hover p{
+        color: #ff000f;
+    }
+    .index-sub-nav .sub-navs li p {
+        padding-top: 8px;
+    }
+    .index-sub-nav.active .sub-nav-search {
+        top: 10px;
+        width: 100%;
+        transition: all 0.2s ease-in-out;
+    }
+    .index-sub-nav.active .sub-nav-search .search-input {
+        width: 100%;
+        transition: all 0.4s ease-in-out 0.2s;
+    }
+    .index-sub-nav.active .sub-navs{
+        top: 90px;
+        width: 100%;
+        transition: all 0.4s ease-in-out 0.2s;
+    }
+    .index-sub-nav.active .line.pre {
+        display: none;
+    }
+    
+    </style>

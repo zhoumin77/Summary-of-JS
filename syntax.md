@@ -16,7 +16,14 @@
     if (document.querySelector('.home'))'
     ```
 
+  - cssText ：获取/设置计算后的 css样式，缺点，会清空所有样式
+
+  ```js
+  this.querySelector('.sub').style.cssText = 'display:block'
+  ```
+
 - 隐式转换
+
   - `++` 会进行隐式转换，转换为数字型加 1
     `+`在字符串前加一个正号，字符串转为数值型
 
