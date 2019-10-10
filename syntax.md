@@ -16,7 +16,7 @@
     if (document.querySelector('.home'))'
     ```
 
-  - cssText ：获取/设置计算后的 css样式，缺点，会清空所有样式
+  - cssText ：获取/设置计算后的 css 样式，缺点，会清空所有样式
 
   ```js
   this.querySelector('.sub').style.cssText = 'display:block'
@@ -155,7 +155,135 @@
 
 - 开启定时器前，先关闭定时器
 
+- slice 浅拷贝，原数组内的拷贝对象修改了，拷贝过去的对象也会修改掉
+
+- 判断字符串中，字符出现的次数
+
+  ```js
+  var str = 'kaikebak'
+  var str3 = str.split('k')
+  console.log(str3.length - 1) // k 出现的次数
+  ```
+
+#### 数组排序
+
+- sort（ function( a , b ){} ）
+  - 可选参数。默认根据字符串的 unicode 码进行排序
+
+> 如果 a-b 的结果
+>
+> ​ 大于 0 ：b 排到 a 前面
+>
+> ​ 小于 0：a 排到 b 前面
+>
+> ​ 等于 0：a 和 b 的位置不变
+
+#### 随机排序
+
+Math.random() - 返回一个 0 ~ 1 之间的值，包含 0，不包含 1；
+
+```js
+var arr = ['a', 'b', 'c', 'd']
+
+arr.sort(function(a, b) {
+  // return
+  return Math.random() - 0.5
+})
+console.log(arr)
+```
+
+#### 数组新增方法
+
+- forEach（callback（ele，index，array）[，thisArg]）
+  - **对数组中的每一个元素，执行一次提供的函数，返回 undefined**
+  - 参数：
+    - callback 执行的函数
+      - ele：数组循环中的元素
+      - index：元素对应的下标
+      - array：当前正在操作的数组
+    - thisArg ：决定 callback 中的 this 指向
+- filter（callback（ele，index，array）[，thisArg]）
+  - **筛选出符合函数中条件的元素，并作为一个新数组返回**
+  - 参数
+    - callback 条件函数
+      - ele：数组循环中的元素
+      - index：元素对应下标
+      - array：当前正在操作的数组
+    - thisAry：决定 callback 中的 this 指向
+- map（callback（ele，index，array）[，thisArg]）
+  - **由数组中的每一位元素执行函数后的结果，作为新数组的值**
+  - 参数：
+    - callback 执行的函数
+      - ele：数组循环中的元素
+      - index：元素对应下标
+      - array：当前正在操作的数组
+    - thisAry：决定 callback 中的 this 指向
+- reduce（callback（result，ele，index，array）[，initiaValue]）
+  - **对数组中的每一个元素执行 callback 函数，将结果根据 callback 函数中的条件，返回单个值。**
+  - 参数：
+    - callback 执行的函数
+      - result：上一次累计的结果
+      - ele：当前正在操作的元素
+      - index：元素对应的下标
+      - array：当前正在操作的数组
+    - initiaValue：result 的初始值，如果不提供，则将使用数组中的第一个值。
+- some（callback（ele，index，array）[，thisArg]）
+  - **测试数组中是否至少有一个元素通过了指定函数的测试，结果返回布尔值**
+  - 参数：
+    - callback 执行的函数
+      - ele：数组循环中的元素
+      - index：元素对应下标
+      - array：当前正在操作的数组
+    - thisAry：决定 callback 中的 this 指向
+- every（callback（ele，index，array）[，thisArg]）
+  - **测试数组中所有的元素是否都通过了指定函数的测试，结果返回布尔值。**
+  - 参数：
+    - callback 执行的函数
+      - ele：数组循环中的元素
+      - index：元素对应下标
+      - array：当前正在操作的数组
+    - thisAry：决定 callback 中的 this 指向
+
+### 对象方法
+
+- Object.keys(obj)
+- 返回一个由 key 组成的数组
+- Object.values(obj)
+- 返回一个由 value 组成的数组
+
+#### 删除对象中的元素
+
+```javascript
+delete obj.key
+```
+
+#### Math 方法
+
+- 用 Math.min() 和 Math.max() 实现区间
+
+```js
+// 最小0，最大10
+var btn = document.querySelectorAll('button')
+var span = document.querySelector('span')
+btn[0].onclick = function() {
+  var num = Number(span.innerHTML) - 1
+  num = Math.max(0, num) // 返回最大值
+  span.innerHTML = num
+}
+btn[1].onclick = function() {
+  var num = Number(span.innerHTML) + 1
+  num = Math.min(10, num)
+  span.innerHTML = num
+}
+```
+
 ## 问题
 
 1. 两个 for 循环中的 i，会重复吗？
-2. 通过new Date() 创建的对象，里面用数字和字符串的命名区别：由于浏览器兼容问题，不要用字符串
+2. 通过 new Date() 创建的对象，里面用数字和字符串的命名区别：由于浏览器兼容问题，不要用字符串
+3. 字符串方法 slice 和 substring() 区别：slice 可以对数组操作，substring 不行
+4. 随机排序数组的实现
+
+```
+
+```
