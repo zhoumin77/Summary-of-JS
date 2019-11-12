@@ -155,6 +155,35 @@
 
 - 开启定时器前，先关闭定时器
 
+  - 定时器操作放在任务队列的尾部，等待同步代码执行完后再执行
+
+  ```js
+  for (var i = 0; i < 5; i++) {
+    setTimeout(function() {
+      console.log(i)
+    })
+  }
+  console.log('a')
+  //输出 a 5 5 5 5 5
+  // 解决方法
+  // 通过闭包实现
+  for (var i = 0; i < 5; i++) {
+    ;(function(i) {
+      //这个匿名函数生成了闭包的效果，新建了一个作用域，这个作用域接收到每次循环的i值保存了下来，即使循环结束，闭包形成的作用域也不会被销毁
+      setTimeout(function() {
+        console.log(i)
+      })
+    })(i)
+  }
+
+  // let关键字劫持了for循环的块作用域，产生了类似闭包的效果。并且在for循环中使用let来定义循环变量还会有一个特殊效果：每一次循环都会重新声明变量i，随后的每个循环都会使用上一个循环结束时的值来初始化这个变量i。
+  for (let i = 0; i < 5; i++) {
+    setTimeout(function() {
+      console.log(i)
+    })
+  }
+  ```
+
 - slice 浅拷贝，原数组内的拷贝对象修改了，拷贝过去的对象也会修改掉
 
 - 判断字符串中，字符出现的次数
@@ -194,7 +223,10 @@ console.log(arr)
 
 #### 数组新增方法
 
-- forEach（callback（ele，index，array）[，thisArg]）
+- Array.from(lis) , [...lis]
+  - 将一个类数组转换为真数组
+
+* forEach（callback（ele，index，array）[，thisArg]）
   - **对数组中的每一个元素，执行一次提供的函数，返回 undefined**
   - 参数：
     - callback 执行的函数
@@ -202,7 +234,7 @@ console.log(arr)
       - index：元素对应的下标
       - array：当前正在操作的数组
     - thisArg ：决定 callback 中的 this 指向
-- filter（callback（ele，index，array）[，thisArg]）
+* filter（callback（ele，index，array）[，thisArg]）
   - **筛选出符合函数中条件的元素，并作为一个新数组返回**
   - 参数
     - callback 条件函数
@@ -210,7 +242,7 @@ console.log(arr)
       - index：元素对应下标
       - array：当前正在操作的数组
     - thisAry：决定 callback 中的 this 指向
-- map（callback（ele，index，array）[，thisArg]）
+* map（callback（ele，index，array）[，thisArg]）
   - **由数组中的每一位元素执行函数后的结果，作为新数组的值**
   - 参数：
     - callback 执行的函数
@@ -218,7 +250,7 @@ console.log(arr)
       - index：元素对应下标
       - array：当前正在操作的数组
     - thisAry：决定 callback 中的 this 指向
-- reduce（callback（result，ele，index，array）[，initiaValue]）
+* reduce（callback（result，ele，index，array）[，initiaValue]）
   - **对数组中的每一个元素执行 callback 函数，将结果根据 callback 函数中的条件，返回单个值。**
   - 参数：
     - callback 执行的函数
@@ -227,7 +259,7 @@ console.log(arr)
       - index：元素对应的下标
       - array：当前正在操作的数组
     - initiaValue：result 的初始值，如果不提供，则将使用数组中的第一个值。
-- some（callback（ele，index，array）[，thisArg]）
+* some（callback（ele，index，array）[，thisArg]）
   - **测试数组中是否至少有一个元素通过了指定函数的测试，结果返回布尔值**
   - 参数：
     - callback 执行的函数
@@ -235,7 +267,7 @@ console.log(arr)
       - index：元素对应下标
       - array：当前正在操作的数组
     - thisAry：决定 callback 中的 this 指向
-- every（callback（ele，index，array）[，thisArg]）
+* every（callback（ele，index，array）[，thisArg]）
   - **测试数组中所有的元素是否都通过了指定函数的测试，结果返回布尔值。**
   - 参数：
     - callback 执行的函数
@@ -277,6 +309,116 @@ btn[1].onclick = function() {
 }
 ```
 
+- break 也能结束 for 循环
+
+#### 递归
+
+- 递归
+
+  ```js
+  // var arr = ['html', 'css', ['js']];
+  // 数组扁平化
+  // var newArr = [];
+  // for (var i = 0; i < arr.length; i++) {
+  //     if (Array.isArray(arr[i])) {
+  //         for (var j = 0; j < arr[i].length; j++) {
+  //             if (Array.isArray(arr[i][j])) {
+
+  //             } else {
+  //                 newArr.push(arr[i][j])
+  //             }
+  //         }
+  //     } else {
+  //         newArr.push(arr[i])
+  //     }
+  // }
+  // console.log(newArr);
+  // 封装
+  // loop(arr);
+  // function loop(parma) {
+  //     for (var i = 0; i < parma.length; i++) {
+  //         if (Array.isArray(parma[i])) {
+  //             loop(parma[i])
+  //         } else {
+  //             newArr.push(parma[i])
+  //         }
+  //     }
+  // }
+
+  // console.log(newArr);
+  // 递归 执行顺序
+  // var num = 0;
+  // loop(num);
+  // function loop(num) {
+  //     if (num < 5) {
+  //         loop(num+1)
+  //     }
+  //     console.log(num);
+  // }
+  ```
+
+- 冒泡排序
+
+  ```js
+  // var arr = [2, 40, 93, 12, 39, 11]
+  // var onoff = false;
+  // for (var j = 0; j < arr.length; j++) {
+  //     onoff = true;
+  //     for (var i = 0; i < arr.length - 1 - j; i++) {
+  //         if (arr[i] > arr[i + 1]) {
+  //             var temp = arr[i];
+  //             arr[i] = arr[i + 1]
+  //             arr[i + 1] = temp;
+  //             onoff = false;
+  //             // console.log(1);
+  //         }
+  //     }
+  //     if (onoff) {
+  //         break;
+  //     }
+  //     console.log(arr);
+
+  // }
+  ```
+
+- 数组去重
+
+  ```js
+  var arr = ['one', 'two', 'two', 'one', 'three']
+
+  // 方法一
+  // var newArr = []
+  // arr.forEach(function (e, i, arr) {
+  //     if (arr.indexOf(e) == i) {
+  //         newArr.push(e)
+  //     }
+  // })
+  // console.log(newArr)
+
+  // 方法二
+  // var newArr = []
+  // newArr = arr.filter(function (e, i, arr) {
+  //     return arr.indexOf(e) == i
+  // })
+  // console.log(newArr);
+
+  // 对象的特性
+  // var obj = {};
+  // arr.forEach(function (e) {
+  //     obj[e] = e
+  // })
+
+  // console.log(obj);
+  // var newArr = []
+  // for (key in obj) {
+  //     newArr.push(obj[key])
+  // }
+  // console.log(newArr)
+  ```
+
+- 表达式，是有结果的，if for 这种都不是
+  - 变量 函数调用 运算符 都是表达式
+
 ## 问题
 
 1. 两个 for 循环中的 i，会重复吗？
@@ -284,6 +426,49 @@ btn[1].onclick = function() {
 3. 字符串方法 slice 和 substring() 区别：slice 可以对数组操作，substring 不行
 4. 随机排序数组的实现
 
+   ```js
+   arrLis.sort(function(p1, p2) {
+     return Math.random() - 0.5
+   })
+   ```
+
+5. 类数组转为数组后，用 innerHTML 的方法添加到页面中，出现 objectELementnodelist
+
+   ```js
+   // 自己实现的方法
+   arrLis.forEach(function(e) {
+     // ul.appendChild(e)  // appendChild 接受的参数，节点对象，可以直接用，ie下有兼容性问题
+     ul.innerHTML += '<li>' + e.innerHTML + '</li>'
+   })
+   ```
+
+6. 第十阶段的无极限菜单，之后要再做一下 脑子没绕出来
+7. react 中 super()的作用
+8. vue 中 新增数组或者对象的处理
+9. vue 中 template 作用
+10. vue 中筛选性别的例子中， input change 和 click 方法，执行顺序问题
+
+```js
+        <div>
+            <input @change="chooseSex" type="radio" v-model="gender" value="">所有
+            <input @change="chooseSex" type="radio" v-model="gender" value="男">男
+            <input @click="chooseSex" type="radio" v-model="gender" value="女">女
+        </div>
+
+
+          methods: {
+              chooseSex() {
+                  console.log(this.gender);  // ? 第一次获取到到是空,需要点击2次才可以实现
+                  if (app.gender == '') {
+                      this.user = users
+                  } else {
+                      this.user = users.filter(ele => {
+                          return ele.gender == this.gender
+                      })
+                  }
+              }
+          }
+        // @change 方法的 this.gender 马上变了，click的打印的还是上一次的值
 ```
 
-```
+  可以看一下 mdn 上，input 的事件更改 checked 就是用的 change
